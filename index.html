@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>全国考公考编实时看板</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="header">
+        <h1>📌 全国考公考编实时看板</h1>
+        <p>全天候自动抓取 · 支持站内搜索与筛选 · 点击直接跳官网</p>
+    </div>
+
+    <div class="filters">
+        <input type="text" id="searchInput" oninput="filterData()" placeholder="🔍 输入关键词搜索（如：选调生、教师、税务局...）">
+        <div class="select-group">
+            <select id="regionFilter" onchange="filterData()">
+                <option value="ALL">📍 全部地区</option>
+                <option value="全国">全国/中央</option>
+                <option value="北京">北京</option><option value="上海">上海</option><option value="广东">广东</option>
+                <option value="浙江">浙江</option><option value="江苏">江苏</option><option value="山东">山东</option>
+                <option value="四川">四川</option><option value="河南">河南</option><option value="湖北">湖北</option>
+            </select>
+            <select id="typeFilter" onchange="filterData()">
+                <option value="ALL">🏷️ 全部编制</option>
+                <option value="公务员">公务员</option>
+                <option value="事业单位">事业单位</option>
+                <option value="教师招聘">教师招聘</option>
+            </select>
+        </div>
+    </div>
+
+    <div id="content">加载中...</div>
+
+    <script>
+        let rawData = [];
+
+        async function init() {
+            try {
+                const res = await fetch('data.json');
+                rawData = await res.json();
+                render(rawData);
+            } catch (e) {
+                document.getElementById('content').innerHTML = '<div class="empty-state">暂无数据或数据加载中...</div>';
+            }
+        }
+
+        function render(items) {
+            if (!items || items.length === 0) {
+                document.getElementById('content').innerHTML = '<div class="empty-state">未找到匹配的招考公告</div>';
+                return;
+            }
+            document.getElementById('content').innerHTML = items.map(item => `
+                <div class="card">
+                    <div class="tags-row">
+                        <span class="tag ${getTagClass(item.type)}">${item.type}</span>
+                        <span class="tag tag-region">📍 ${item.region}</span>
+                    </div>
+                    <a href="${item.url}" target="_blank" class="card-title">${item.title}</a>
+                    <div class="card-meta">
+                        <span>📅 ${item.date} ${item.update_time || ''}</span>
+                        <span>来源：${item.source}</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function getTagClass(type) {
+            if (type === '公务员') return 'tag-gwy';
+            if (type === '事业单位') return 'tag-sydw';
+            if (type === '教师招聘') return 'tag-js';
+            return 'tag-region';
+        }
+
+        function filterData() {
+            const keyword = document.getElementById('searchInput').value.toLowerCase().trim();
+            const selectedRegion = document.getElementById('regionFilter').value;
+            const selectedType = document.getElementById('typeFilter').value;
+
+            const filtered = rawData.filter(item => {
+                const matchKeyword = !keyword || item.title.toLowerCase().includes(keyword) || item.region.toLowerCase().includes(keyword);
+                const matchRegion = (selectedRegion === 'ALL') || (item.region === selectedRegion);
+                const matchType = (selectedType === 'ALL') || (item.type === selectedType);
+                return matchKeyword && matchRegion && matchType;
+            });
+            render(filtered);
+        }
+
+        init();
+    </script>
+</body>
+</html>
