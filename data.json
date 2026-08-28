@@ -1,1 +1,47 @@
-[]
+[
+  {
+    "title": "中央和国家机关所属事业单位公开招聘工作人员公告",
+    "url": "http://www.mohrss.gov.cn/",
+    "region": "全国",
+    "type": "事业单位",
+    "source": "人社部",
+    "date": "2026-08-28",
+    "update_time": "09:00"
+  },
+  {
+    "title": "北京市2026年度各级机关考试录用公务员公告",
+    "url": "http://rsj.beijing.gov.cn/",
+    "region": "北京",
+    "type": "公务员",
+    "source": "北京人社局",
+    "date": "2026-08-28",
+    "update_time": "09:30"
+  },
+  {
+    "title": "广东省2026年集中公开招聘事业单位工作人员公告",
+    "url": "http://hrss.gd.gov.cn/",
+    "region": "广东",
+    "type": "事业单位",
+    "source": "广东人社厅",
+    "date": "2026-08-28",
+    "update_time": "10:15"
+  },
+  {
+    "title": "浙江省面向选调优秀大学毕业生到基层工作公告",
+    "url": "http://rlsbt.zj.gov.cn/",
+    "region": "浙江",
+    "type": "公务员",
+    "source": "浙江组织部",
+    "date": "2026-08-28",
+    "update_time": "11:00"
+  },
+  {
+    "title": "山东省教育厅直属学校公开招聘教师公告",
+    "url": "http://hrss.shandong.gov.cn/",
+    "region": "山东",
+    "type": "教师招聘",
+    "source": "山东教育厅",
+    "date": "2026-08-28",
+    "update_time": "14:20"
+  }
+]
